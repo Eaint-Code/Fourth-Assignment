@@ -1,0 +1,220 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+struct user{
+
+        int userid;
+        char name;
+        char pwd;
+        int amount;
+        int age;
+        char location;
+
+}user;
+
+void insertData(){
+
+    struct user *u;
+   
+    FILE *fptr;
+    int n,i;
+
+    printf("Enter how many users do you want : ");
+    scanf("%d",&n);
+    
+    u=(struct user*)malloc(sizeof(struct user));
+    fptr=fopen("myUser.txt","w");
+
+
+    for(i=0;i<n;i++){
+
+        printf("Enter user id : ");
+        scanf("%d",&u->userid);
+
+        printf("Enter user name : ");
+        scanf("%s",&u->name);
+        
+        printf("Enter password : ");
+        scanf("%s",&u->pwd);
+        
+        printf("Enter amount : ");
+        scanf("%d",&u->amount);
+        
+        printf("Enter age : ");
+        scanf("%d",&u->age);
+        
+        printf("Enter location : ");
+        scanf("%s",&u->location);
+        
+    
+    fwrite(&u[i],sizeof(struct user),1,fptr);
+
+    }
+    
+    fclose(fptr);
+
+}
+
+
+void reloadData(){
+    
+    struct user *u1;
+    
+    FILE *fptr;
+    fptr=fopen("myUser.txt","r");
+    
+    int userid;
+    char name;
+    char pwd;
+    int amount;
+    int age;
+    char location;
+
+    
+    
+    while(fread(&u1,sizeof(struct user),1,fptr)){
+        
+        printf("%5d\t",u1->userid);
+        printf("%10s\t",u1->name);
+        printf("%10s\t",u1->pwd);
+        printf("%5d\t",u1->amount);
+        printf("%5d\t",u1->age);
+        printf("%10s\n",u1->location);
+    }
+    
+    fclose(fptr);
+    
+}
+
+void findData(){
+    
+     struct user *u;
+   
+    FILE *fptr;
+    int n,i;
+
+    printf("Enter how many users do you want : ");
+    scanf("%d",&n);
+    
+    u=(struct user*)malloc(sizeof(struct user));
+    fptr=fopen("myUser.txt","a");
+
+
+    for(i=0;i<n;i++){
+
+        printf("Enter user id : ");
+        scanf("%d",&u->userid);
+
+        printf("Enter user name : ");
+        scanf("%s",&u->name);
+        
+        printf("Enter password : ");
+        scanf("%s",&u->pwd);
+        
+        printf("Enter amount : ");
+        scanf("%d",&u->amount);
+        
+        printf("Enter age : ");
+        scanf("%d",&u->age);
+        
+        printf("Enter location : ");
+        scanf("%s",&u->location);
+        
+    
+    fwrite(&u[i],sizeof(struct user),1,fptr);
+
+    }
+    
+    fclose(fptr);
+    
+    
+};
+
+
+void uploadData(){
+    
+    struct user *u1;
+    char name;
+    int found=0;
+    
+    FILE *fptr;
+    fptr=fopen("myUser.txt","r");
+    
+    printf("Enter username to search: ");
+    scanf("%s",&name);
+    
+
+    
+    
+    while(fread(&u1,sizeof(struct user),1,fptr)){
+        
+        if((u1->name)==name){
+        
+        printf("%5d\t",u1->userid);
+        printf("%10s\t",u1->name);
+        printf("%10s\t",u1->pwd);
+        printf("%5d\t",u1->amount);
+        printf("%5d\t",u1->age);
+        printf("%10s\n",u1->location);
+        
+        }
+    }
+    if(!found){
+        printf("\n Record Not Found \n");
+    }
+    
+    fclose(fptr);
+    
+};
+
+int main(){
+
+    int ch;
+
+    do{
+            printf("Press 1 : INSERT \n");
+            printf("Press 2 : RELOAD \n");
+            printf("Press 3 : FIND \n");
+            printf("Press 4 : UPDATE \n");
+
+            printf("Enter Press number : ");
+            scanf("%d",&ch);
+
+            switch(ch){
+
+                case 1:
+
+                insertData();
+
+                break;
+
+            case 2:
+
+                reloadData();
+
+                break;
+
+            case 3:
+
+                findData();
+
+                break;
+
+            case 4:
+
+                uploadData();
+                break;
+
+
+            }
+
+
+    }while(ch!=0);
+
+return 0;
+
+}
+
+
